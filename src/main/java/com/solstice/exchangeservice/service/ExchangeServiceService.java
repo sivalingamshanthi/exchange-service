@@ -13,7 +13,7 @@ public class ExchangeServiceService {
 
 	public ExchangeRateResponse getExchangeRate(String from, String to) {
 
-		
+		//test
 
 		if(from.equals("USD") && to.equals("INR"))
 			return new ExchangeRateResponse(from, to, 72.00);
