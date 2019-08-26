@@ -1,22 +1,33 @@
 package com.solstice.exchangeservice.repository;
 
+import com.solstice.exchangeservice.model.ExchangeRateResponse;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.mockito.BDDMockito.given;
-
-@DataJpaTest
 @RunWith(SpringRunner.class)
+@DataJpaTest
 public class ExchangeServiceRepositoryTests {
 
     @Autowired
-//    private ExchangeServiceRepository exchangeServiceRepository;
+    public ExchangeServiceRepository exchangeServiceRepository;
 
     @Test
     public void findByFromAndTo_Success(){
-//        exchangeServiceRepository.findByFromAndTo("USD", "INR")
+
+        ExchangeRateResponse exchangeRateResponse =
+                new ExchangeRateResponse("INR","USD",86.00);
+        ExchangeRateResponse rateResponse = exchangeServiceRepository.save(exchangeRateResponse);
+
+        ExchangeRateResponse exchangeRateResponse1 = exchangeServiceRepository
+                .findByFromCurrencyAndToCurrency("INR", "USD");
+
+        Assert.assertEquals(86.00, exchangeRateResponse1.getConversion(), 0);
+        Assert.assertEquals("INR", exchangeRateResponse1.getFromCurrency());
+        Assert.assertEquals("USD", exchangeRateResponse1.getToCurrency());
     }
+
 }

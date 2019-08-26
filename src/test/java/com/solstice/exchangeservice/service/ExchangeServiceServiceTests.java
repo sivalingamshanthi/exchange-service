@@ -27,28 +27,32 @@ public class ExchangeServiceServiceTests {
     @MockBean
     ExchangeServiceRepository exchangeServiceRepository;
 
+
+
     @Test
     public void serviceTest_USDTOINR_Success() {
 
-//        given(exchangeServiceRepository.findByFromAndTo(Mockito.anyString(), Mockito.anyString()))
-//                .willReturn(new ExchangeRateResponse("USD", "INR", 72.00));
+        given(exchangeServiceRepository.findByFromCurrencyAndToCurrency(Mockito.anyString(), Mockito.anyString()))
+                .willReturn(new ExchangeRateResponse("USD", "INR", 72.00));
 
         ExchangeRateResponse exchangeRateResponse =
                 exchangeServiceService.getExchangeRate("USD", "INR");
 
         Assert.assertEquals(72.00, exchangeRateResponse.getConversion(), 0);
-        Assert.assertEquals("USD", exchangeRateResponse.getFrom());
-        Assert.assertEquals("INR", exchangeRateResponse.getTo());
+        Assert.assertEquals("USD", exchangeRateResponse.getFromCurrency());
+        Assert.assertEquals("INR", exchangeRateResponse.getToCurrency());
     }
 
     @Test
     public void serviceTest_INRTOUSD_getExchangeRate_Success() {
 
+        given(exchangeServiceRepository.findByFromCurrencyAndToCurrency(Mockito.anyString(), Mockito.anyString()))
+                .willReturn(new ExchangeRateResponse("INR", "USD", 86.00));
         ExchangeRateResponse exchangeRateResponse =
                 exchangeServiceService.getExchangeRate("INR", "USD");
 
         Assert.assertEquals(86.00, exchangeRateResponse.getConversion(), 0);
-        Assert.assertEquals("INR", exchangeRateResponse.getFrom());
-        Assert.assertEquals("USD", exchangeRateResponse.getTo());
+        Assert.assertEquals("INR", exchangeRateResponse.getFromCurrency());
+        Assert.assertEquals("USD", exchangeRateResponse.getToCurrency());
     }
 }

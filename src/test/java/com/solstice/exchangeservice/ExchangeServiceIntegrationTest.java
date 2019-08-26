@@ -1,14 +1,18 @@
 package com.solstice.exchangeservice;
 
 import com.solstice.exchangeservice.model.ExchangeRateResponse;
+import com.solstice.exchangeservice.repository.ExchangeServiceRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,19 +23,22 @@ public class ExchangeServiceIntegrationTest {
 	@Autowired
 	RestTemplate restTemplate;
 
+	@Autowired
+	public ExchangeServiceRepository exchangeServiceRepository;
+
 	@Test
 	public void success() {
 		//arrange
-
+//		ExchangeRateResponse rateResponse = exchangeServiceRepository.save(new ExchangeRateResponse("USD","INR",72.00));
 		//act
 		ResponseEntity<ExchangeRateResponse> exchangeRateResponse = restTemplate
 				.getForEntity("http://localhost:8080/exchange-rate?from=USD&to=INR", ExchangeRateResponse.class);
 
 		//assert
 		Assert.assertEquals(HttpStatus.OK, exchangeRateResponse.getStatusCode());
-		Assert.assertEquals("USD", exchangeRateResponse.getBody().getFrom());
-		Assert.assertEquals("INR", exchangeRateResponse.getBody().getTo());
-		Assert.assertEquals(72.00, exchangeRateResponse.getBody().getConversion(), 0);
+		Assert.assertEquals("USD", exchangeRateResponse.getBody().getFromCurrency());
+		Assert.assertEquals("INR", exchangeRateResponse.getBody().getToCurrency());
+		Assert.assertEquals(86.00, exchangeRateResponse.getBody().getConversion(), 0);
 	}
 
 	@Test(expected = HttpClientErrorException.NotFound.class)

@@ -37,8 +37,8 @@ public class ExchangeServiceControllerTest {
 		//act
 		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=USD&to=INR"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("from").value("USD"))
-				.andExpect(jsonPath("to").value("INR"))
+				.andExpect(jsonPath("fromCurrency").value("USD"))
+				.andExpect(jsonPath("toCurrency").value("INR"))
 				.andExpect(jsonPath("conversion").value(72.0));
 		//assert
 	}
@@ -53,8 +53,8 @@ public class ExchangeServiceControllerTest {
 		//act
 		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=INR&to=USD"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("from").value("INR"))
-				.andExpect(jsonPath("to").value("USD"))
+				.andExpect(jsonPath("fromCurrency").value("INR"))
+				.andExpect(jsonPath("toCurrency").value("USD"))
 				.andExpect(jsonPath("conversion").value(72.0));
 		//assert
 	}
