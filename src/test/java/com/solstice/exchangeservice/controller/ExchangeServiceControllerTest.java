@@ -5,7 +5,6 @@ import com.solstice.exchangeservice.model.ExchangeRateResponse;
 import com.solstice.exchangeservice.service.ExchangeServiceService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -46,6 +45,10 @@ public class ExchangeServiceControllerTest {
 
 	@Test
 	public void controllerTest_INRToUSD() throws Exception {
+
+		//arrange
+		given(exchangeServiceService.getExchangeRate(anyString(), anyString()))
+				.willReturn(new ExchangeRateResponse("INR", "USD", 72.0));
 
 		//act
 		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=INR&to=USD"))
