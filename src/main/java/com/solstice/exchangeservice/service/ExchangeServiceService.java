@@ -1,23 +1,28 @@
 package com.solstice.exchangeservice.service;
 
+import com.solstice.exchangeservice.exception.ExchangeRateNotFoundException;
 import com.solstice.exchangeservice.model.ExchangeRateResponse;
 import com.solstice.exchangeservice.repository.ExchangeServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ExchangeServiceService {
 
-	@Autowired
-	ExchangeServiceRepository serviceService;
+	final ExchangeServiceRepository exchangeServiceRepository;
+
+	public ExchangeServiceService(ExchangeServiceRepository exchangeServiceRepository) {
+		this.exchangeServiceRepository = exchangeServiceRepository;
+	}
 
 	public ExchangeRateResponse getExchangeRate(String from, String to) {
 
-		//test
+		//Call the repo interface method
+		ExchangeRateResponse exchangeRateResponse = exchangeServiceRepository
+				.findByFromCurrencyAndToCurrency(from, to);
 
-		if(from.equals("USD") && to.equals("INR"))
-			return new ExchangeRateResponse(from, to, 72.00);
-		else
-			return new ExchangeRateResponse(from, to, 86.00);
+		if(exchangeRateResponse==null){
+			throw new ExchangeRateNotFoundException();
+		}
+		return exchangeRateResponse;
 	}
 }

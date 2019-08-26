@@ -22,9 +22,6 @@ public class ExchangeServiceController {
 	@GetMapping("/exchange-rate")
 	public ExchangeRateResponse getExchangeRate(@RequestParam String from, @RequestParam String to) {
 
-		if(!(from.equals("USD") && to.equals("INR")))
-			throw new ExchangeRateNotFoundException();
-
 		return exchangeServiceService.getExchangeRate(from, to);
 	}
 }
