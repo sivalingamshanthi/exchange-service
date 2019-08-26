@@ -21,11 +21,10 @@ public class ExchangeServiceController {
 
 	@GetMapping("/exchange-rate")
 	public ExchangeRateResponse getExchangeRate(@RequestParam String from, @RequestParam String to) {
-		return exchangeServiceService.getExchangeRate(from, to);
-	}
 
-	@ExceptionHandler
-	public ResponseEntity<ExchangeRateNotFoundException> handleExchangeRateNotFoundException(Exception e) {
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if(!(from.equals("USD") && to.equals("INR")))
+			throw new ExchangeRateNotFoundException();
+
+		return exchangeServiceService.getExchangeRate(from, to);
 	}
 }
