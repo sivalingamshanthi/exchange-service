@@ -26,7 +26,7 @@ public class ExchangeServiceIntegrationTest {
 	@Test
 	public void success() {
 		//arrange
-//		ExchangeRateResponse rateResponse = exchangeServiceRepository.save(new ExchangeRateResponse("USD","INR",72.00));
+
 		//act
 		ResponseEntity<ExchangeRateResponse> exchangeRateResponse = restTemplate
 				.getForEntity("http://localhost:8080/exchange-rate?from=USD&to=INR", ExchangeRateResponse.class);
@@ -42,10 +42,8 @@ public class ExchangeServiceIntegrationTest {
 	public void notFound() {
 
 		//act
-			ResponseEntity<Exception> exchangeRateResponse = restTemplate
-					.getForEntity("http://localhost:8080/exchange-rate?from=USA&to=INR", Exception.class);
+		ResponseEntity<Exception> exchangeRateResponse = restTemplate
+				.getForEntity("http://localhost:8080/exchange-rate?from=USA&to=INR", Exception.class);
 
 	}
-
-
 }
