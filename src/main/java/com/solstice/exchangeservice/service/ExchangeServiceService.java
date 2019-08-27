@@ -15,13 +15,14 @@ public class ExchangeServiceService {
 	}
 
 	public ExchangeRateResponse getExchangeRate(String from, String to) {
+		String message = "Exchange Rate Not Found";
 
 		//Call the repo interface method
 		ExchangeRateResponse exchangeRateResponse = exchangeServiceRepository
 				.findByFromCurrencyAndToCurrency(from, to);
 
 		if(exchangeRateResponse==null){
-			throw new ExchangeRateNotFoundException();
+			throw new ExchangeRateNotFoundException(message, from, to);
 		}
 		return exchangeRateResponse;
 	}

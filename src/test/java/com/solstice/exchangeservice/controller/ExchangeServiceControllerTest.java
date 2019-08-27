@@ -64,10 +64,14 @@ public class ExchangeServiceControllerTest {
 
 		//arrange
 		given(exchangeServiceService.getExchangeRate(anyString(), anyString()))
-				.willThrow(new ExchangeRateNotFoundException());
+				.willThrow(new ExchangeRateNotFoundException("Exchange Rate Not Found", "USA", "INR"));
 
 		//act
-		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=INR&to=USD"))
-				.andExpect(status().isNotFound());
+		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=USA&to=INR"))
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("message").value("Exchange Rate Not Found"))
+				.andExpect(jsonPath("fromCurrency").value("USA"))
+				.andExpect(jsonPath("toCurrency").value("INR"));
+
 	}
 }

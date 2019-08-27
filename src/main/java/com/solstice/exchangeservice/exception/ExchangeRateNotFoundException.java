@@ -1,10 +1,26 @@
 package com.solstice.exchangeservice.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@JsonIgnoreProperties({"stackTrace", "localizedMessage", "suppressed", "cause"})
 public class ExchangeRateNotFoundException extends RuntimeException {
+    private String toCurrency;
+    private String fromCurrency;
 
+    public ExchangeRateNotFoundException(String message, String fromCurrency, String toCurrency) {
+        super(message);
+        this.toCurrency = toCurrency;
+        this.fromCurrency = fromCurrency;
+
+    }
+
+    public String getToCurrency() {
+        return toCurrency;
+    }
+
+
+    public String getFromCurrency() {
+        return fromCurrency;
+    }
 
 }
