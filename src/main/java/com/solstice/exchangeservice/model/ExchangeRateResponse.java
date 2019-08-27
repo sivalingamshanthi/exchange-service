@@ -1,5 +1,7 @@
 package com.solstice.exchangeservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,6 +9,7 @@ public class ExchangeRateResponse {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonIgnore
 	private Long id;
 
     private String fromCurrency;
