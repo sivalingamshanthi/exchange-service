@@ -26,9 +26,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
                                                                           HttpStatus status,
                                                                           WebRequest request){
       String missingParameter = ex.getParameterName();
-        String message="Missing Request Param:"+ missingParameter;
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-
-        // Actual exception handling
+      String message="Missing Request Param:"+ missingParameter;
+      return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 }
