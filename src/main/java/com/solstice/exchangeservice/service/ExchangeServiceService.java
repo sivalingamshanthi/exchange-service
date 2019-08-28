@@ -1,8 +1,7 @@
 package com.solstice.exchangeservice.service;
 
-import com.solstice.exchangeservice.exception.ExchangeRateNotFoundException;
 import com.solstice.exchangeservice.model.ExchangeRateResponse;
-import com.solstice.exchangeservice.repository.ExchangeServiceRepository;
+import com.solstice.exchangeservice.data.ExchangeServiceRepository;
 import org.springframework.stereotype.Service;
 
 @Service

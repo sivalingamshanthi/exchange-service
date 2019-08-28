@@ -1,6 +1,7 @@
 package com.solstice.exchangeservice.exception;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.solstice.exchangeservice.service.ExchangeRateNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

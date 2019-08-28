@@ -1,4 +1,4 @@
-package com.solstice.exchangeservice.exception;
+package com.solstice.exchangeservice.web;
 
 public class MissingRequestParamException extends RuntimeException  {
 

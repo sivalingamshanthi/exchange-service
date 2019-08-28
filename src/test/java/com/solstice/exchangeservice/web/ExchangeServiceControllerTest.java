@@ -1,6 +1,6 @@
-package com.solstice.exchangeservice.controller;
+package com.solstice.exchangeservice.web;
 
-import com.solstice.exchangeservice.exception.ExchangeRateNotFoundException;
+import com.solstice.exchangeservice.service.ExchangeRateNotFoundException;
 import com.solstice.exchangeservice.model.ExchangeRateResponse;
 import com.solstice.exchangeservice.service.ExchangeServiceService;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class ExchangeServiceControllerTest {
 				.willReturn(new ExchangeRateResponse("USD", "INR", 72.0));
 
 		//act
-		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=USD&to=INR"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/exchange-rate?from=USD&to=INR"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("fromCurrency").value("USD"))
 				.andExpect(jsonPath("toCurrency").value("INR"))
@@ -51,7 +51,7 @@ public class ExchangeServiceControllerTest {
 				.willReturn(new ExchangeRateResponse("INR", "USD", 72.0));
 
 		//act
-		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=INR&to=USD"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/exchange-rate?from=INR&to=USD"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("fromCurrency").value("INR"))
 				.andExpect(jsonPath("toCurrency").value("USD"))
@@ -67,11 +67,20 @@ public class ExchangeServiceControllerTest {
 				.willThrow(new ExchangeRateNotFoundException("Exchange Rate Not Found", "USA", "INR"));
 
 		//act
-		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=USA&to=INR"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/exchange-rate?from=USA&to=INR"))
 				.andExpect(status().isNotFound())
 				.andExpect(jsonPath("message").value("Exchange Rate Not Found"))
 				.andExpect(jsonPath("fromCurrency").value("USA"))
 				.andExpect(jsonPath("toCurrency").value("INR"));
 
+	}
+
+	@Test
+	public void missingRequestParam() throws Exception{
+
+		//act
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/exchange-rate?from=AUD"))
+				.andExpect(status().isBadRequest());
 	}
 }
