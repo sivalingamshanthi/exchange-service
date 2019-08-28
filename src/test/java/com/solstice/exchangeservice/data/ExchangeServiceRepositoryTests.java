@@ -1,4 +1,4 @@
-package com.solstice.exchangeservice.repository;
+package com.solstice.exchangeservice.data;
 
 import com.solstice.exchangeservice.model.ExchangeRateResponse;
 import org.junit.Assert;

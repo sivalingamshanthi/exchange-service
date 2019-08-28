@@ -1,4 +1,4 @@
-package com.solstice.exchangeservice.exception;
+package com.solstice.exchangeservice.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

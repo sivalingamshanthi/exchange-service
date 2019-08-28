@@ -43,27 +43,8 @@ public class ExchangeServiceIntegrationTest {
 	}
 
 
-	@Test
-	public void notFound() throws Exception{
 
-		//act
 
-		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=USA&to=INR"))
-				.andExpect(status().isNotFound())
-				.andExpect(jsonPath("message").value("Exchange Rate Not Found"))
-				.andExpect(jsonPath("fromCurrency").value("USA"))
-				.andExpect(jsonPath("toCurrency").value("INR"));
-
-	}
-
-	@Test
-	public void missingRequestParam() throws Exception{
-
-		//act
-
-		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/exchange-rate?from=AUD"))
-				.andExpect(status().isBadRequest());
-	}
 
 
 }

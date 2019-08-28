@@ -1,7 +1,7 @@
 package com.solstice.exchangeservice.service;
 
 import com.solstice.exchangeservice.model.ExchangeRateResponse;
-import com.solstice.exchangeservice.repository.ExchangeServiceRepository;
+import com.solstice.exchangeservice.data.ExchangeServiceRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
