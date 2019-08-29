@@ -25,7 +25,7 @@ public class ExchangeRateResponse {
 	private String toCurrency;
 	private double conversion;
 
-	public ExchangeRateResponse(String fromCurrency, String toCurrency, double conversion) {
+	public ExchangeRateResponse( String fromCurrency, String toCurrency, double conversion) {
 		this.fromCurrency = fromCurrency;
 		this.toCurrency = toCurrency;
 		this.conversion = conversion;

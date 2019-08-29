@@ -30,4 +30,5 @@ public class ExchangeServiceRepositoryTests {
         Assert.assertEquals("USD", exchangeRateResponse1.getToCurrency());
     }
 
+
 }
