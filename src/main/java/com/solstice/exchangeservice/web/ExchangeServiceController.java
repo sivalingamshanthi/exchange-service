@@ -1,10 +1,10 @@
 package com.solstice.exchangeservice.web;
 
-import com.solstice.exchangeservice.model.ExchangeRateResponse;
+import com.solstice.exchangeservice.model.ExchangeRate;
+import com.solstice.exchangeservice.model.GenericResponse;
 import com.solstice.exchangeservice.service.ExchangeServiceService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ExchangeServiceController {
@@ -16,8 +16,15 @@ public class ExchangeServiceController {
 	}
 
 	@GetMapping("/exchange-rate")
-	public ExchangeRateResponse getExchangeRate(@RequestParam String from, @RequestParam String to) {
+	public ExchangeRate getExchangeRate(@RequestParam String from, @RequestParam String to) {
 
 		return exchangeServiceService.getExchangeRate(from, to);
+	}
+
+	@PostMapping("/exchange-rate")
+	@ResponseStatus(HttpStatus.CREATED)
+	public GenericResponse addExchangeRate(@RequestBody ExchangeRate rateResponse){
+		exchangeServiceService.addExchangeRate(rateResponse);
+		return new GenericResponse("success");
 	}
 }

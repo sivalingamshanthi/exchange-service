@@ -1,6 +1,7 @@
 package com.solstice.exchangeservice;
 
-import com.solstice.exchangeservice.model.ExchangeRateResponse;
+import com.solstice.exchangeservice.data.ExchangeServiceRepository;
+import com.solstice.exchangeservice.model.ExchangeRate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,11 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -25,15 +22,20 @@ public class ExchangeServiceIntegrationTest {
 	@Autowired
 	RestTemplate restTemplate;
 	@Autowired
+	ExchangeServiceRepository exchangeServiceRepository;
+	@Autowired
 	MockMvc mockMvc;
-
 
 	@Test
 	public void success() {
 		//arrange
 		//act
-		ResponseEntity<ExchangeRateResponse> exchangeRateResponse = restTemplate
-				.getForEntity("http://localhost:8080/exchange-rate?from=USD&to=INR", ExchangeRateResponse.class);
+
+		exchangeServiceRepository.save(new ExchangeRate("USD",
+				"INR",86.00));
+
+		ResponseEntity<ExchangeRate> exchangeRateResponse = restTemplate
+				.getForEntity("http://localhost:8080/exchange-rate?from=USD&to=INR", ExchangeRate.class);
 
 		//assert
 		Assert.assertEquals(HttpStatus.OK, exchangeRateResponse.getStatusCode());
@@ -41,10 +43,4 @@ public class ExchangeServiceIntegrationTest {
 		Assert.assertEquals("INR", exchangeRateResponse.getBody().getToCurrency());
 		Assert.assertEquals(86.00, exchangeRateResponse.getBody().getConversion(), 0);
 	}
-
-
-
-
-
-
 }

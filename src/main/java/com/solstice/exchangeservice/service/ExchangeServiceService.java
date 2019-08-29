@@ -1,7 +1,7 @@
 package com.solstice.exchangeservice.service;
 
-import com.solstice.exchangeservice.model.ExchangeRateResponse;
 import com.solstice.exchangeservice.data.ExchangeServiceRepository;
+import com.solstice.exchangeservice.model.ExchangeRate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,16 +13,27 @@ public class ExchangeServiceService {
 		this.exchangeServiceRepository = exchangeServiceRepository;
 	}
 
-	public ExchangeRateResponse getExchangeRate(String from, String to) {
+	public ExchangeRate getExchangeRate(String from, String to) {
 		String message = "Exchange Rate Not Found";
 
 		//Call the repo interface method
-		ExchangeRateResponse exchangeRateResponse = exchangeServiceRepository
+		ExchangeRate exchangeRate = exchangeServiceRepository
 				.findByFromCurrencyAndToCurrency(from, to);
 
-		if(exchangeRateResponse==null){
+		if(exchangeRate ==null){
 			throw new ExchangeRateNotFoundException(message, from, to);
 		}
-		return exchangeRateResponse;
+		return exchangeRate;
+	}
+
+	public void addExchangeRate(ExchangeRate response){
+		ExchangeRate r = exchangeServiceRepository
+				.findByFromCurrencyAndToCurrency(response.getFromCurrency(), response.getToCurrency());
+
+		if(r == null){
+			exchangeServiceRepository.save(response);
+		} else {
+			throw new ResourceAlreadyExistsException("Value already exists", r.getFromCurrency(), r.getToCurrency(), r.getConversion());
+		}
 	}
 }

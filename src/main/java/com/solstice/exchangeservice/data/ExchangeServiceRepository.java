@@ -1,11 +1,11 @@
 package com.solstice.exchangeservice.data;
 
-import com.solstice.exchangeservice.model.ExchangeRateResponse;
+import com.solstice.exchangeservice.model.ExchangeRate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ExchangeServiceRepository extends JpaRepository<ExchangeRateResponse, Long> {
+public interface ExchangeServiceRepository extends JpaRepository<ExchangeRate, Long> {
 
-    ExchangeRateResponse findByFromCurrencyAndToCurrency(String from, String to);
+    ExchangeRate findByFromCurrencyAndToCurrency(String from, String to);
 }

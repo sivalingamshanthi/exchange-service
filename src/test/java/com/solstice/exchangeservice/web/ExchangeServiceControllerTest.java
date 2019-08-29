@@ -1,19 +1,24 @@
 package com.solstice.exchangeservice.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.solstice.exchangeservice.model.ExchangeRate;
 import com.solstice.exchangeservice.service.ExchangeRateNotFoundException;
-import com.solstice.exchangeservice.model.ExchangeRateResponse;
 import com.solstice.exchangeservice.service.ExchangeServiceService;
+import com.solstice.exchangeservice.service.ResourceAlreadyExistsException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.TransactionSystemException;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,7 +37,7 @@ public class ExchangeServiceControllerTest {
 
 		//arrange
 		given(exchangeServiceService.getExchangeRate(anyString(), anyString()))
-				.willReturn(new ExchangeRateResponse("USD", "INR", 72.0));
+				.willReturn(new ExchangeRate("USD", "INR", 72.0));
 
 		//act
 		mockMvc.perform(MockMvcRequestBuilders.get("/exchange-rate?from=USD&to=INR"))
@@ -48,7 +53,7 @@ public class ExchangeServiceControllerTest {
 
 		//arrange
 		given(exchangeServiceService.getExchangeRate(anyString(), anyString()))
-				.willReturn(new ExchangeRateResponse("INR", "USD", 72.0));
+				.willReturn(new ExchangeRate("INR", "USD", 72.0));
 
 		//act
 		mockMvc.perform(MockMvcRequestBuilders.get("/exchange-rate?from=INR&to=USD"))
@@ -81,6 +86,43 @@ public class ExchangeServiceControllerTest {
 		//act
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/exchange-rate?from=AUD"))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void addCurrency() throws Exception {
+		willDoNothing().given(exchangeServiceService).addExchangeRate(any());
+
+		String jsonBody = new ObjectMapper().writeValueAsString(new ExchangeRate("USD", "INR", 77.0));
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/exchange-rate")
+				.content(jsonBody).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated())
+				.andExpect(jsonPath("message").value("success"));
+	}
+
+	@Test
+	public void addCurrency_failureMissingBody() throws Exception{
+
+		willThrow(ResourceAlreadyExistsException.class).given(exchangeServiceService).addExchangeRate(any());
+
+		String jsonBody = new ObjectMapper().writeValueAsString(new ExchangeRate("USD", "INR", 77.0));
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/exchange-rate")
+				.content(jsonBody).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isConflict());
+	}
+
+	@Test
+	public void addCurrency_failureMissingFieldsInBody() throws Exception{
+
+		willThrow(TransactionSystemException.class).given(exchangeServiceService).addExchangeRate(any());
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/exchange-rate")
+				.content("{\n" +
+							"\t\"fromCurrency\": \"USD\"\n" +
+						"}")
+				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
 	}
 }
