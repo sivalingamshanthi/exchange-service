@@ -1,6 +1,7 @@
 package com.solstice.exchangeservice;
 
-import com.solstice.exchangeservice.model.ExchangeRateResponse;
+import com.solstice.exchangeservice.data.ExchangeServiceRepository;
+import com.solstice.exchangeservice.model.ExchangeRate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,15 +22,20 @@ public class ExchangeServiceIntegrationTest {
 	@Autowired
 	RestTemplate restTemplate;
 	@Autowired
+	ExchangeServiceRepository exchangeServiceRepository;
+	@Autowired
 	MockMvc mockMvc;
-
 
 	@Test
 	public void success() {
 		//arrange
 		//act
-		ResponseEntity<ExchangeRateResponse> exchangeRateResponse = restTemplate
-				.getForEntity("http://localhost:8080/exchange-rate?from=USD&to=INR", ExchangeRateResponse.class);
+
+		exchangeServiceRepository.save(new ExchangeRate("USD",
+				"INR",86.00));
+
+		ResponseEntity<ExchangeRate> exchangeRateResponse = restTemplate
+				.getForEntity("http://localhost:8080/exchange-rate?from=USD&to=INR", ExchangeRate.class);
 
 		//assert
 		Assert.assertEquals(HttpStatus.OK, exchangeRateResponse.getStatusCode());

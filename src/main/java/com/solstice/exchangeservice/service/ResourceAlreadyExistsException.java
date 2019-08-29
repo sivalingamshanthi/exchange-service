@@ -1,5 +1,13 @@
 package com.solstice.exchangeservice.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+
+@JsonIgnoreProperties({"stackTrace", "localizedMessage", "suppressed", "cause"})
+@JsonPropertyOrder({"message", "fromCurrency", "toCurrency", "conversion"})
+@Getter
 public class ResourceAlreadyExistsException extends RuntimeException {
 
     private String toCurrency;

@@ -1,6 +1,6 @@
 package com.solstice.exchangeservice.data;
 
-import com.solstice.exchangeservice.model.ExchangeRateResponse;
+import com.solstice.exchangeservice.model.ExchangeRate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,16 +18,16 @@ public class ExchangeServiceRepositoryTests {
     @Test
     public void findByFromAndTo_Success(){
 
-        ExchangeRateResponse exchangeRateResponse =
-                new ExchangeRateResponse("INR","USD",86.00);
-        ExchangeRateResponse rateResponse = exchangeServiceRepository.save(exchangeRateResponse);
+        ExchangeRate exchangeRate =
+                new ExchangeRate("INR","USD",86.00);
+        ExchangeRate rateResponse = exchangeServiceRepository.save(exchangeRate);
 
-        ExchangeRateResponse exchangeRateResponse1 = exchangeServiceRepository
+        ExchangeRate exchangeRate1 = exchangeServiceRepository
                 .findByFromCurrencyAndToCurrency("INR", "USD");
 
-        Assert.assertEquals(86.00, exchangeRateResponse1.getConversion(), 0);
-        Assert.assertEquals("INR", exchangeRateResponse1.getFromCurrency());
-        Assert.assertEquals("USD", exchangeRateResponse1.getToCurrency());
+        Assert.assertEquals(86.00, exchangeRate1.getConversion(), 0);
+        Assert.assertEquals("INR", exchangeRate1.getFromCurrency());
+        Assert.assertEquals("USD", exchangeRate1.getToCurrency());
     }
 
 
