@@ -38,14 +38,14 @@ public class ExchangeServiceService {
 			exchangeServiceRepository.save(response);
 			s = "success";
 		} else {
-			//update
-			if(r.getConversion() != response.getConversion()){
-				r.setConversion(response.getConversion());
-				exchangeServiceRepository.save(r);
-				s =  "success";
-			} else {
+//			//update
+//			if(r.getConversion() != response.getConversion()){
+//				r.setConversion(response.getConversion());
+//				exchangeServiceRepository.save(r);
+//				s =  "success";
+//			} else {
 				throw new ResourceAlreadyExistsException("Value already exists", r.getFromCurrency(), r.getToCurrency(), r.getConversion());
-			}
+//			}
 		}
 
 		return s;

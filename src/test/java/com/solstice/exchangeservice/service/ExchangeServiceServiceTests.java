@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 
 @WebMvcTest(ExchangeServiceService.class)
 @RunWith(SpringRunner.class)
@@ -58,29 +59,17 @@ public class ExchangeServiceServiceTests {
     }
 
     @Test
-    public void serviceTest_addExchangeRate_update(){
-
-        ExchangeRateResponse r = new ExchangeRateResponse("USD", "INR", 86.00);
-
-        given(exchangeServiceRepository.findByFromCurrencyAndToCurrency(anyString(), anyString()))
-                .willReturn(r);
-
-        String s = exchangeServiceService.addExchangeRate(r);
-
-        Assert.assertEquals("success", s);
-    }
-
-    @Test
     public void serviceTest_addExchangeRate_add(){
 
         ExchangeRateResponse r = new ExchangeRateResponse("USD", "INR", 86.00);
 
         given(exchangeServiceRepository.findByFromCurrencyAndToCurrency(anyString(), anyString()))
                 .willReturn(null);
+        given(exchangeServiceRepository.save(any())).willReturn(null);
 
-        String s = exchangeServiceService.addExchangeRate(r);
+        String result = exchangeServiceService.addExchangeRate(r);
 
-        Assert.assertEquals("success", s);
+        Assert.assertEquals("success", result);
     }
 
     @Test(expected = ResourceAlreadyExistsException.class)
