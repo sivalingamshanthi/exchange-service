@@ -26,7 +26,7 @@ public class ExchangeServiceService {
 		return exchangeRate;
 	}
 
-	public void addExchangeRate(ExchangeRate response){
+	public void addExchangeRate(ExchangeRate response) {
 		ExchangeRate r = exchangeServiceRepository
 				.findByFromCurrencyAndToCurrency(response.getFromCurrency(), response.getToCurrency());
 

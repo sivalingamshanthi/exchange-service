@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -104,13 +105,13 @@ public class ExchangeServiceControllerTest {
 	@Test
 	public void addCurrency_failureMissingBody() throws Exception{
 
-		willThrow(ResourceAlreadyExistsException.class).given(exchangeServiceService).addExchangeRate(any());
+		willThrow(HttpMessageNotReadableException.class).given(exchangeServiceService).addExchangeRate(any());
 
 		String jsonBody = new ObjectMapper().writeValueAsString(new ExchangeRate("USD", "INR", 77.0));
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/exchange-rate")
 				.content(jsonBody).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isConflict());
+				.andExpect(status().isBadRequest());
 	}
 
 	@Test
