@@ -6,11 +6,5 @@ pipeline {
                sh './gradlew clean build'
             }
         }
-
-    stage('Stage 2') {
-            steps {
-                sh 'javadoc:javadoc'
-            }
-        }
     }
 }
