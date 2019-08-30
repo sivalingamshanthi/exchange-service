@@ -1,9 +1,24 @@
 pipeline {
     agent any 
     stages {
-        stage('Stage 1') {
+        stage('Clean') {
             steps {
-                sh './gradlew clean build'
+                sh './gradlew clean'
+            }
+        }
+        stage('Assemble') {
+            steps {
+                sh './gradlew assemble'
+            }
+        }
+        stage('Check') {
+            steps {
+                sh './gradlew check'
+            }
+        }
+        stage('Javadoc') {
+            steps {
+                sh './gradlew javadoc'
             }
         }
     }
