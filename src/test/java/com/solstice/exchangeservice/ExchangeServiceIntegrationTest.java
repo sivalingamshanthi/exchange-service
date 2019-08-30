@@ -43,4 +43,22 @@ public class ExchangeServiceIntegrationTest {
 		Assert.assertEquals("INR", exchangeRateResponse.getBody().getToCurrency());
 		Assert.assertEquals(86.00, exchangeRateResponse.getBody().getConversion(), 0);
 	}
+
+	@Test
+	public void swagger_API_success() throws Exception {
+		ResponseEntity<Object> exchangeRateResponse = restTemplate
+				.getForEntity("http://localhost:8080/v2/api-docs", Object.class);
+
+		//assert
+		Assert.assertEquals(HttpStatus.OK, exchangeRateResponse.getStatusCode());
+	}
+
+	@Test
+	public void swagger_UI_success() throws Exception {
+		ResponseEntity<String> exchangeRateResponse = restTemplate
+				.getForEntity("http://localhost:8080/swagger-ui.html", String.class);
+
+		//assert
+		Assert.assertEquals(HttpStatus.OK, exchangeRateResponse.getStatusCode());
+	}
 }

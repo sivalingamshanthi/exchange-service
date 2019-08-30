@@ -3,10 +3,12 @@ package com.solstice.exchangeservice.web;
 import com.solstice.exchangeservice.model.ExchangeRate;
 import com.solstice.exchangeservice.model.GenericResponse;
 import com.solstice.exchangeservice.service.ExchangeServiceService;
+import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Api(tags = "Exchange Service Controller")
 public class ExchangeServiceController {
 
 	private final ExchangeServiceService exchangeServiceService;
