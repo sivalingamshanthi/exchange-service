@@ -21,4 +21,3 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-

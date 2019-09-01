@@ -1,4 +1,7 @@
 pipeline {
+    parameters {
+        string( name: 'pcfToken', description: 'CF access token used to deploy the app')
+    }
     agent any 
     stages {
         stage('Clean') {
