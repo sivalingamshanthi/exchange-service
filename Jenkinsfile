@@ -31,7 +31,7 @@ pipeline {
                     ]]){
                         sh '/usr/local/bin/cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD'
                         sh '/usr/local/bin/cf target -o solstice-org -s sshanthi_cnt'
-                        sh '/usr/local/bin/cf push'
+                        sh '/usr/local/bin/cf push exchange-service -p build/libs/exchange-service-0.0.1-SNAPSHOT.jar -b java_buildpack --random-route'
                 }
             }
         }
