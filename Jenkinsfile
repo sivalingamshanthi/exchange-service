@@ -6,12 +6,12 @@ pipeline {
                 sh './gradlew clean'
             }
         }
-        stage('Assemble') {
+        stage('Build') {
             steps {
                 sh './gradlew assemble'
             }
         }
-        stage('Check') {
+        stage('Test') {
             steps {
                 sh './gradlew check'
             }
