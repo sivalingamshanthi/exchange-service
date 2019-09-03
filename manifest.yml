@@ -1,5 +1,6 @@
 applications:
-name: exchange-service
-instances: 1
-memory: 800m
-path: target/exchange-service-0.0.1-SNAPSHOT.jar
+  -
+    name: exchange-service
+    instances: 1
+    memory: 800m
+    path: target/exchange-service-0.0.1-SNAPSHOT.jar
