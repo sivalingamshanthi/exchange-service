@@ -21,14 +21,15 @@ pipeline {
                 sh './gradlew javadoc'
             }
         }
-        stage('Deploy to PCF'){
+        stage('Deploy'){
             steps{
-                pushToCloudFoundry(
-                target: 'api.run.pivotal.io',
-                organization: 'solstice-org',
-                cloudSpace: 'sshanthi_cnt',
-                credentialsId: '8c180327bc9648b98ab5352293eb2e4f'
-                )
+                withCredentials([[$class:'UsernamePasswordMultiBinding'
+                credentialsId: 'PCF_LOGIN',
+                usernameVariable: 'USERNAME',
+                passwordVariable: 'PASSWORD']]){
+                    sh '/usr/local/bin/cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD'
+                    sh '/usr/local/bin/cf push'
+                }
             }
         }
     }
