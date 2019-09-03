@@ -27,7 +27,7 @@ pipeline {
                 target: 'api.run.pivotal.io',
                 organization: 'solstice-org',
                 cloudSpace: 'sshanthi_cnt',
-                credentials: '8c180327bc9648b98ab5352293eb2e4f'
+                credentialsId: '8c180327bc9648b98ab5352293eb2e4f'
                 )
             }
         }
