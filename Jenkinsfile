@@ -19,9 +19,9 @@ pipeline {
                 sh './gradlew check'
             }
         }
-        stage('Deploy') {
+        stage('Javadoc') {
             steps {
-                sh 'python deploy.py ${pcfToken}'
+                sh './gradlew javadoc'
             }
         }
     }
