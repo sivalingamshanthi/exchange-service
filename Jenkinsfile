@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'python deploy.py ${params.pcfToken}'
+                sh 'python deploy.py ${pcfToken}'
             }
         }
     }
