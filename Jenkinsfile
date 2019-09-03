@@ -30,7 +30,7 @@ pipeline {
                     passwordVariable    : 'PASSWORD'
                     ]]){
                         sh '/usr/local/bin/cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD'
-                        sh '/usr/local/bin/cf target -o solstice-org'
+                        sh '/usr/local/bin/cf target -o solstice-org -s sshanthi_cnt'
                         sh '/usr/local/bin/cf push'
                 }
             }
