@@ -22,6 +22,11 @@ pipeline {
             }
         }
         stage('Deploy'){
+
+            input{
+                message "Deploy app to PCF?"
+                ok "Yes"
+            }
             steps{
                 withCredentials([[
                     $class              : 'UsernamePasswordMultiBinding',
