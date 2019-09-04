@@ -1,5 +1,5 @@
 pipeline {
-    agent any 
+    agent any
     stages {
         stage('Clean') {
             steps {
@@ -31,7 +31,7 @@ pipeline {
                     ]]){
                         sh 'cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD'
                         sh 'cf target -o solstice-org -s sshanthi_cnt'
-                        sh 'cf push exchange-service -p build/libs/exchange-service-0.0.1-SNAPSHOT.jar -b java_buildpack --random-route'
+                        sh 'cf push exchange-service'
                 }
             }
         }
