@@ -12,6 +12,10 @@ pipeline {
             }
         }
         stage('Test') {
+            input{
+                message "Run Tests?"
+                ok "Yes"
+            }
             steps {
                 sh './gradlew check'
             }
@@ -22,11 +26,6 @@ pipeline {
             }
         }
         stage('Deploy'){
-
-            input{
-                message "Deploy app to PCF?"
-                ok "Yes"
-            }
             steps{
                 withCredentials([[
                     $class              : 'UsernamePasswordMultiBinding',
